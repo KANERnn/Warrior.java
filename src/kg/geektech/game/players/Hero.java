@@ -15,6 +15,7 @@ public abstract class Hero extends GameEntity
         }
     }
 
+
     public SuperAbility getAbility() {
         return ability;
     }

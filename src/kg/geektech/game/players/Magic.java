@@ -9,12 +9,10 @@ public class Magic extends Hero {
 
     @Override
     public void applySuperPower(Boss boss, Hero[] heroes) {
+        int coefficient = RPG_Game.random.nextInt(20)+1;
         for (int i = 0; i < heroes.length; i++) {
-            int boost = RPG_Game.random.nextInt(3) + 2;
-            this.setDamage(boost);
-            if (this.getHealth() > 0 && heroes[i].getHealth() > 0 && this != heroes[i]) {
-                heroes[i].setDamage(heroes[i].getDamage() + getDamage());
-            }
+            heroes[i].setDamage(heroes[i].getDamage() + coefficient);
         }
+        System.out.println(this.getName()+": Mag damage: " + coefficient);
     }
 }
