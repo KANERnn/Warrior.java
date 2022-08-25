@@ -1,7 +1,9 @@
 package kg.geektech.game.players;
 
+import kg.geektech.game.general.RPG_Game;
+
 public class Berserk extends Hero {
-    private int saveDamage;
+    private int savedDamage;
 
     public Berserk(int health, int damage, String name) {
         super(health, damage, name, SuperAbility.SAVE_DAMAGE_AND_REVERT);
@@ -9,21 +11,31 @@ public class Berserk extends Hero {
 
     @Override
     public void applySuperPower(Boss boss, Hero[] heroes) {
-        this.setSaveDamage(boss.getDamage() / 2);
-        for (int i = 0; i < heroes.length; i++) {
-            if (heroes.length > 0) {
-                boss.setHealth(boss.getHealth() - this.getSavedDamage());
-                System.out.println("Berserk поглотил урон босса");
-                break;
+        boolean moment = RPG_Game.random.nextBoolean();
+
+        if (moment == false) {
+            setSavedDamage(savedDamage += boss.getDamage() / 5);
+            System.out.println("Berserk Damage: " + savedDamage);
+        } else if (moment == true) {
+            if (boss.getDefence() == SuperAbility.SAVE_DAMAGE_AND_REVERT) {
+                savedDamage = 0;
+                System.out.println("Berserk block");
+
+            } else {
+                boss.setHealth(boss.getHealth() - savedDamage);
+                System.out.println("Berserk ability: " + savedDamage);
+                savedDamage = 0;
             }
         }
+
+
     }
 
     public int getSavedDamage() {
-        return saveDamage;
+        return savedDamage;
     }
 
-    public void setSaveDamage(int saveDamage) {
-        this.saveDamage = saveDamage;
+    public void setSavedDamage(int savedDamage) {
+        this.savedDamage = savedDamage;
     }
 }
